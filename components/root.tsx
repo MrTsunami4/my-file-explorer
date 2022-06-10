@@ -1,25 +1,7 @@
-import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { getFiles, getFolders } from "../../lib/folder";
-import { Props } from "../folder";
+import { Props } from "./folder";
 
-// Get the folder name from the slug
-const folder = () => {
-  const router = useRouter();
-  return router.pathname.split("/")[2];
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return {
-    props: {
-      folders: getFolders(folder()),
-      files: getFiles(folder()),
-    },
-  };
-};
-
-const FolderInside = ({ folders, files }: Props) => {
+const RootFolders = ({ folders, files }: Props) => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <Head>
@@ -30,9 +12,9 @@ const FolderInside = ({ folders, files }: Props) => {
           {folders.map((f) => (
             <li
               key={f}
-              className="flex flex-col items-center justify-center bg-blue-200 px-5 py-2 mb-4 rounded-md"
+              className="flex flex-col items-center justify-center bg-green-200 px-5 py-2 mb-4 rounded-md"
             >
-              <a href={`/folder/${f}`}>{f}</a>
+              <a href={`/root/${f}`}>{f}</a>
             </li>
           ))}
         </ul>
@@ -42,7 +24,7 @@ const FolderInside = ({ folders, files }: Props) => {
               key={f}
               className="flex flex-col items-center justify-center bg-blue-200 px-5 py-2 mb-4 rounded-md"
             >
-              <a href={`/file/${f}`}>{f}</a>
+              <p> The name of the file is {f}</p>
             </li>
           ))}
         </ul>
@@ -51,4 +33,4 @@ const FolderInside = ({ folders, files }: Props) => {
   );
 };
 
-export default FolderInside;
+export default RootFolders;
